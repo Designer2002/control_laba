@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <title>Notebook</title>
+</head>
+<body>
+    <div class="container">
+        <h1>My Notes</h1>
+        <button id="openModal" onclick="document.getElementById('modalAdd').showModal();">Add New Note</button>
+        <div id="notesList">
+            {% for note in notes %}
+                <div class="note">
+                    <p>{{ note.text }}</p>
+                    <form method="POST" action="{{ url_for('delete_note', id=note.id) }}">
+                        <button type="submit">Delete</button>
+                    </form>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Add Note Modal -->
+    <dialog id="modalAdd" aria-modal="true" aria-labelledby="modalAdd-title">
+        <div class="modal-content">
+            <div class="modal-header" id="modalAdd-title">Add New Note</div>
+            <form method="POST" action="{{ url_for('add_note') }}">
+                <label for="noteText">Note:</label>
+                <input type="text" id="noteText" name="text" required>
+                <button type="submit">Add Note</button>
+            </form>
+            <button type="button" onclick="document.getElementById('modalAdd').close();">Close</button>
+        </div>
+    </dialog>
+    
+    <script>
+        // Optional: Add script to handle modal close
+    </script>
+</body>
+</html>
